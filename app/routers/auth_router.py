@@ -10,7 +10,11 @@ from ..schemas import Token, UserCreate, UserInDB
 router = APIRouter(tags=["auth"])
 
 @router.post("/token", response_model=Token)
-def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+def login_for_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    remember: bool = False,
+    db: Session = Depends(get_db)
+    ):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
@@ -18,11 +22,17 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=30)
+    # Si "recordar contraseña" está seleccionado, el token expirará en 7 días, de lo contrario en 30 minutos
+    access_token_expires = timedelta(days=7 if remember else 30)
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "first_name": user.first_name,
+        "last_name": user.last_name
+    }
 
 @router.post("/register", response_model=UserInDB)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):

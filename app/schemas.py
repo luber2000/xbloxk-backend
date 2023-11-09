@@ -18,6 +18,8 @@ class UserInDB(UserBase):
 class Token(BaseModel):
     access_token: str
     token_type: str
+    first_name: str | None = None
+    last_name: str | None = None
 
 class TokenData(BaseModel):
     email: EmailStr | None = None
