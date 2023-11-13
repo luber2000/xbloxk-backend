@@ -6,13 +6,7 @@ from sqlalchemy.orm import Session
 from .database import SessionLocal
 from .models import User
 from .schemas import TokenData
-
-
-# to get a string like this run:
-# openssl rand -hex 32
-SECRET_KEY = "97f800e5b7799e5fb1403953bb8766aa45041c9cd9964c5376ed536080af1f71"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+from .config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
