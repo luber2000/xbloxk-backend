@@ -3,9 +3,14 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
-from .dependencies import get_db, verify_password, get_password_hash, SECRET_KEY, ALGORITHM
+from .dependencies import get_db, verify_password, get_password_hash
 from .models import User
 from .schemas import Token, UserInDB
+
+SECRET_KEY = "97f800e5b7799e5fb1403953bb8766aa45041c9cd9964c5376ed536080af1f71"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
