@@ -9,7 +9,7 @@ from ..schemas import Token, UserCreate, UserInDB
 
 router = APIRouter(tags=["auth"])
 
-@router.post("/token", response_model=Token)
+@router.post("/api//token", response_model=Token)
 def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     remember: bool = False,
@@ -34,7 +34,7 @@ def login_for_access_token(
         "last_name": user.last_name
     }
 
-@router.post("/register", response_model=UserInDB)
+@router.post("/api//register", response_model=UserInDB)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == user.email).first()
     if db_user:

@@ -10,7 +10,7 @@ from ..schemas import UserInDB, UserBase, UserCreate
 router = APIRouter()
 
 # Show my profile data
-@router.get("/users/me", response_model=UserInDB)
+@router.get("/api/users/me", response_model=UserInDB)
 def read_user_me(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """
     Fetch the current user's profile information.
@@ -18,7 +18,7 @@ def read_user_me(current_user: User = Depends(get_current_user), db: Session = D
     return current_user
 
 # List users or members
-@router.get("/users/", response_model=List[UserInDB])
+@router.get("/api/users/", response_model=List[UserInDB])
 def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     """
     Retrieve a list of users.
@@ -27,7 +27,7 @@ def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return users
 
 # List user profile based on his userid
-@router.get("/user/{user_id}", response_model=UserInDB)
+@router.get("/api/user/{user_id}", response_model=UserInDB)
 def get_user(user_id: int, db: Session = Depends(get_db)):
     print("*"*10)
     user = db.query(User).filter(User.id == user_id).first()
@@ -36,7 +36,7 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.post("/users/create", response_model=UserInDB)
+@router.post("/api//users/create", response_model=UserInDB)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == user.email).first()
     if db_user:
