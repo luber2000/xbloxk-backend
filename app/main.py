@@ -8,6 +8,10 @@ app = FastAPI()
 app.include_router(auth_router.router)
 app.include_router(users_router.router)
 
+@app.get("/")
+def read_root():
+    return {"Hello": "root"}
+
 @app.get("/api/")
 def read_root():
     return {"Hello": "World"}
@@ -17,7 +21,7 @@ def read_root():
 # Configura el middleware CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Las URLs de los frontend que permitirás
+    allow_origins=["*"],  # Las URLs de los frontend que permitirás
     allow_credentials=True,
     allow_methods=["*"],  # Permite todos los métodos
     allow_headers=["*"],  # Permite todos los headers
