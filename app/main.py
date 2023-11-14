@@ -12,7 +12,7 @@ app.include_router(users_router.router)
 def read_root():
     return {"Hello": "root"}
 
-@app.get("/api/")
+@app.get("/fastapi/")
 def read_root():
     return {"Hello": "World"}
 
